@@ -1,1 +1,1 @@
-worker: python Cases_by_State.py
+web: gunicorn Cases_by_State.py
