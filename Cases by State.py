@@ -2,6 +2,8 @@
 # It is defined by the kaggle/python Docker image: https://github.com/kaggle/docker-python
 # For example, here's several helpful packages to load
 
+
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -29,7 +31,7 @@ fig.update_layout(
     yaxis_title="Positive Cases"
 )
 
-
+print
 fig.show()
 
 fig = go.Figure()
