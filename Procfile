@@ -1,1 +1,1 @@
-web: python Cases_by_State.py
+worker: python Cases_by_State.py
