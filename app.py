@@ -17,60 +17,34 @@ sns.set(color_codes = True)
 sns.set(style="whitegrid")
 import plotly.figure_factory as ff
 from plotly.colors import n_colors
+import dash
+from dash import html
+from dash import dcc
+import plotly.graph_objects as go
 
+app = dash.Dash()   #initialising dash app
 
 csv = pd.read_csv('https://raw.githubusercontent.com/M3IT/COVID-19_Data/master/Data/COVID_AU_state_cumulative.csv')
 csv.date = pd.to_datetime(csv.date)
-date_wise_df = csv.groupby(['date', 'state'])['positives'].sum().reset_index()
-fig = px.bar(date_wise_df, x = 'date', y = 'positives', color = 'state')
-fig.update_layout(
-    title={
-            'text' : "Daily cases by state",
-        },
-    xaxis_title="Date",
-    yaxis_title="Positive Cases"
-)
 
-print
-fig.show()
 
-fig = go.Figure()
-fig.add_trace(go.Bar(x=csv.date,
-                y=csv.positives,
-                name='Positives',
-                marker_color='blue'
-                ))
-fig.add_trace(go.Bar(x=csv.date,
-                y=csv.hosp,
-                name='hosp',
-                marker_color='red'
-                ))
+def stock_prices():
+    # Function for creating line chart showing Google stock prices over time 
+    fig = go.Figure([go.Scatter(x = csv['date'], y = csv['positives'],\
+                     line = dict(color = 'firebrick', width = 4), name = 'Google')
+                     ])
+    fig.update_layout(title = 'Prices over time',
+                      xaxis_title = 'Dates',
+                      yaxis_title = 'Prices'
+                      )
+    return fig  
 
-fig.update_layout(
-    title='US Export of Plastic Scrap',
-    xaxis_tickfont_size=14,
-    yaxis=dict(
-        title='Positive Cases',
-        titlefont_size=16,
-        tickfont_size=14,
-    ),
-    legend=dict(
-        x=0,
-        y=1.0,
-        bgcolor='rgba(255, 255, 255, 0)',
-        bordercolor='rgba(255, 255, 255, 0)'
-    ),
-    barmode='group',
-    bargap=0.15, # gap between bars of adjacent location coordinates.
-    bargroupgap=0.1 # gap between bars of the same location coordinate.
-)
+ 
+app.layout = html.Div(id = 'parent', children = [
+    html.H1(id = 'H1', children = 'Styling using html components', style = {'textAlign':'center',\
+                                            'marginTop':40,'marginBottom':40}),
 
-fig.show()
-
-import os
-for dirname, _, filenames in os.walk('/kaggle/input'):
-    for filename in filenames:
-        print(os.path.join(dirname, filename))
-
-# You can write up to 20GB to the current directory (/kaggle/working/) that gets preserved as output when you create a version using "Save & Run All" 
-# You can also write temporary files to /kaggle/temp/, but they won't be saved outside of the current session
+        
+        dcc.Graph(id = 'line_plot', figure = stock_prices())    
+    ]
+                     )
