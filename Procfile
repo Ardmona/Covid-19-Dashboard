@@ -1,1 +1,1 @@
-web: gunicorn Cases_by_State.py
+web: gunicorn app:app
