@@ -74,3 +74,8 @@ for dirname, _, filenames in os.walk('/kaggle/input'):
 
 # You can write up to 20GB to the current directory (/kaggle/working/) that gets preserved as output when you create a version using "Save & Run All" 
 # You can also write temporary files to /kaggle/temp/, but they won't be saved outside of the current session
+
+if __name__ == '__main__':
+    # Bind to PORT if defined, otherwise default to 5000.
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
